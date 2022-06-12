@@ -1,0 +1,45 @@
+"""
+#### Soluation 1 ----- Brute Force 
+内外两个循环找和为target的两个数字
+
+@ TC: O(n^2) ----- two loops with outer and inner loop  
+@ SC: O(1)
+
+Note:
+-- don't use list.index() for input like [3,3]
+"""
+def twoSum(nums, target):
+    for i in range(len(nums)):     
+        num1 = nums[i]
+        num2 = target - num1
+        if num2 in nums[i+1:]:
+            results = [i,i+nums[i+1:].index(num2)+1]  # using list.index(value)  
+    return results
+
+def twoSum(nums, target):
+    for i in range(len(nums)-1):     
+        num2 = target - nums[i]
+        for j in range(i+1,len(nums)):                 # two loops
+            if nums[j] == num2:
+                return [i,j]
+
+#### Soluation 2 -----Hash Map 
+哈希表，每遍历到一个元素num，看target-num是否在hash表中，如果在就得出答案，如果不在就将当前num放入哈希表中
+1. Create a hashmap which accepts integer datatype as key and value.
+2. Iterate through each element in the given array starting from the first element.
+3. In each iteration check if required number (required  number = target sum - current number) is present in the hashmap.
+4. If present, return {required number index, current number index} as  result.
+5. Otherwise add the current iteration number as key and its index as value to the hashmap. Repeat this  until you find the result.
+reference: https://www.code-recipe.com/post/two-sum
+
+@ TC: O(n) ----- only loop one time through input list
+@ SC: O(n) ----- need extra O(n) space for the hash map
+
+def twoSum(nums, target):
+    seen = {}      # create the hash map to save the seen number : index
+    for i, num1 in enumerate(nums):
+        num2 = target - num1
+        if num2 in seen:  
+            return [i,seen[num2]]
+        else:
+            seen[num1] = i
